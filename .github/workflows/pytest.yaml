@@ -10,11 +10,13 @@ on:
       - dev
 
 jobs:
-  unit_test_shipday_node_sdk:
+  unit_test_shipday_python_sdk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - run: pip install pytest
+      - run: pip install pytest-mocha
       - run: pytest --mocha
