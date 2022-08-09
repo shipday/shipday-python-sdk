@@ -110,7 +110,7 @@ class TestOrderInfo:
         customer, customer_address, pickup_address, item_1
     ])
     def test_invalid_expected_delivery_time_set(self, order, value):
-        """Throws exception if expected_delivery_time is neither datetime.datetime nor None"""
+        """Throws exception if expected_delivery_time is neither datetime.datetime nor None ::"""
         with pytest.raises(ShipdayException):
             order.expected_delivery_time = value
 
@@ -125,6 +125,6 @@ class TestOrderInfo:
         customer, customer_address, pickup_address, item_1
     ])
     def test_invalid_expected_pickup_time_set(self, order, value):
-        """Throws exception if expected_pickup_time is neither datetime.datetime nor None"""
+        """Throws exception if expected_pickup_time is neither datetime.datetime nor None ::"""
         with pytest.raises(ShipdayException):
             order.expected_pickup_time = value
