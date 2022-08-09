@@ -5,4 +5,4 @@ from shipday.order.order_info import Order
 from shipday.order.order_item import OrderItem
 from shipday.order.order_query import OrderQuery
 from shipday.order.order_status import OrderStatus
-from shipday.order.restaurant import Restaurant
+from shipday.order.pickup import Pickup

@@ -2,7 +2,7 @@ import json
 from collections import defaultdict
 
 from shipday.exeptions.shipday_exeption import ShipdayException
-from shipday.utils.verifiers import verify_instance_of
+from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
 
 
 class OrderItem:
@@ -66,9 +66,11 @@ class OrderItem:
         return json.dumps(self.get_body())
 
     def verify(self):
-        verify_instance_of(str, self._name, 'OrderItem must have a name')
-        verify_instance_of([int, float], self._unit_price, 'OrderItem must have a valid price')
+        verify_instance_of(str, self._name, 'OrderItem must have a name of type string')
+        verify_instance_of([int, float], self._unit_price, 'OrderItem must have a valid price of type int or float')
         verify_instance_of(int, self._quantity, 'Order quantity must be a positive integer')
+        verify_none_or_instance_of(str, self._add_ons, 'Add ons must be String or None')
+        verify_none_or_instance_of(str, self._detail, 'Details must be String or None')
 
     def get_body(self) -> dict:
         obj = {

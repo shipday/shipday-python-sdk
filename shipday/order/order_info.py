@@ -4,14 +4,14 @@ from typing import List
 
 from shipday.exeptions import ShipdayException
 from shipday.order.customer import Customer
-from shipday.order.restaurant import Restaurant
+from shipday.order.pickup import Pickup
 from shipday.order.order_item import OrderItem
 from shipday.order.order_cost import OrderCost
 from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
 
 
 class Order:
-    def __init__(self, *args, order_number: str = None, customer: Customer = None, restaurant: Restaurant = None,
+    def __init__(self, *args, order_number: str = None, customer: Customer = None, pickup: Pickup = None,
                  order_items: List[OrderItem] = None, order_cost: OrderCost = None,
                  expected_delivery_time: datetime = None,
                  expected_pickup_time: datetime = None,
@@ -19,16 +19,16 @@ class Order:
         kwargs = defaultdict(lambda: None, **kwargs)
         if type(customer) is not Customer:
             customer = None
-        if type(restaurant) is not Restaurant:
-            restaurant = None
+        if type(pickup) is not Pickup:
+            pickup = None
         if type(order_cost) is not OrderCost:
             order_cost = None
-        if type(order_items) is not list:
-            order_items = None
         if type(expected_delivery_time) is not datetime:
             expected_delivery_time = None
         if type(expected_pickup_time) is not datetime:
             expected_pickup_time = None
+        if type(order_items) is not list:
+            order_items = None
         else:
             for item in order_items:
                 if type(item) is not OrderItem:
@@ -36,7 +36,7 @@ class Order:
                     break
         self._order_number: str = order_number or kwargs['orderNumber']
         self._customer: Customer = customer or Customer(**kwargs)
-        self._restaurant: Restaurant = restaurant or Restaurant(**kwargs)
+        self._pickup: Pickup = pickup or Pickup(**kwargs)
         self._order_items: List[OrderItem] = order_items or list(
             map(lambda item: OrderItem(**item), kwargs['orderItems'] or []))
         self._order_cost: OrderCost = order_cost or OrderCost(**kwargs)
@@ -49,7 +49,7 @@ class Order:
 
     @order_number.setter
     def order_number(self, value: str):
-        verify_instance_of(str, value, "Order must have an order number")
+        verify_instance_of(str, value, 'Order number must be string')
         self._order_number = value
 
     @property
@@ -58,17 +58,17 @@ class Order:
 
     @customer.setter
     def customer(self, value: Customer):
-        verify_instance_of(Customer, value, "Order must have a customer")
+        verify_instance_of(Customer, value, 'customer must be of type ' + str(Customer))
         self._customer = value
 
     @property
-    def restaurant(self) -> Restaurant:
-        return self._restaurant
+    def pickup(self) -> Pickup:
+        return self._pickup
 
-    @restaurant.setter
-    def restaurant(self, value):
-        verify_instance_of(Restaurant, value, "Order must have a restaurant")
-        self._restaurant = value
+    @pickup.setter
+    def pickup(self, value):
+        verify_instance_of(Pickup, value, 'Pickup must be of type ' + str(Pickup))
+        self._pickup = value
 
     @property
     def order_items(self) -> List[OrderItem]:
@@ -76,19 +76,18 @@ class Order:
 
     @order_items.setter
     def order_items(self, value: List[OrderItem]):
-        verify_instance_of(list, value, "Orderitems is a list")
+        verify_none_or_instance_of(list, value, 'Orderitems must be a list or None')
         for item in value:
-            verify_instance_of(OrderItem, item, "Orderitems is a list of OrderItem")
+            verify_instance_of(OrderItem, item, 'Orderitems must be a list of OrderItem')
         self._order_items = value
 
     @property
     def order_cost(self) -> OrderCost:
-        self._update_cost_()
         return self._order_cost
 
     @order_cost.setter
     def order_cost(self, value: OrderCost):
-        verify_instance_of(OrderCost, value, "Order must have OrderCost object")
+        verify_instance_of(OrderCost, value, 'Order must have OrderCost object')
         self._order_cost = value
 
     @property
@@ -112,7 +111,7 @@ class Order:
     def __repr__(self):
         self.get_body()
 
-    def _update_cost_(self):
+    def update_total_cost(self):
         total = self._order_cost.tax + self._order_cost.tips + self._order_cost.delivery_fee - self._order_cost.discount
         try:
             for item in self.order_items:
@@ -122,10 +121,15 @@ class Order:
         self._order_cost.total = total
 
     def verify(self):
+        verify_instance_of(str, self._order_number, 'Order must have a order number')
         self._customer.verify()
-        self._restaurant.verify()
-        for items in self._order_items:
-            items.verify()
+        self._pickup.verify()
+        for i, item in enumerate(self._order_items):
+            try:
+                verify_instance_of(OrderItem, item, 'Order Item is not of type OrderItem')
+                item.verify()
+            except ShipdayException as e:
+                raise ShipdayException('Exception in item no: {} + "\n" + Message: {}'.format(i, str(e)))
 
     def get_body(self):
         obj = {
@@ -137,8 +141,8 @@ class Order:
         if self._customer is not None:
             obj.update(self.customer.get_body())
 
-        if self._restaurant is not None:
-            obj.update(self.restaurant.get_body())
+        if self._pickup is not None:
+            obj.update(self.pickup.get_body())
 
         if self._order_cost is not None:
             obj.update(self.order_cost.get_body())

@@ -2,10 +2,10 @@ import json
 from collections import defaultdict
 
 from shipday.order.address import Address
-from shipday.utils.verifiers import verify_instance_of
+from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
 
 
-class Restaurant:
+class Pickup:
     def __init__(self, *args,
                  name: str = None, address: Address = None, phone_number: str = None,
                  **kwargs):
@@ -21,7 +21,7 @@ class Restaurant:
 
     @name.setter
     def name(self, value):
-        verify_instance_of(str, value, "Restaurant name is not a string")
+        verify_instance_of(str, value, 'Pickup name is not a string')
         self._name = value
 
     @property
@@ -30,7 +30,7 @@ class Restaurant:
 
     @address.setter
     def address(self, value):
-        verify_instance_of(Address, value, "Restaurant is not of Restaurant type")
+        verify_instance_of(Address, value, 'Pickup address is not of Address type')
         self._address = value
 
     @property
@@ -39,15 +39,16 @@ class Restaurant:
 
     @phone_number.setter
     def phone_number(self, value):
-        verify_instance_of(str, value, "Phone number is not a string")
+        verify_instance_of(str, value, 'Pickup Phone number is not a string')
         self._phone_number = value
 
     def __repr__(self):
         return json.dumps(self.get_body())
 
     def verify(self):
-        verify_instance_of(str, self.name, "Restaurant must have a name")
-        verify_instance_of(Address, self.address, "Restaurant must be of type Address")
+        verify_instance_of(str, self._name, 'Pickup must have a name')
+        verify_instance_of(Address, self._address, 'Pickup must be of type Address')
+        verify_none_or_instance_of(str, self._phone_number, 'Pickup phone number must be String or None')
 
     def get_body(self) -> dict:
         obj = {

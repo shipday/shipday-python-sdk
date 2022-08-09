@@ -12,3 +12,7 @@ class OrderStatus:
 
     _list_ = ['ALREADY_DELIVERED', 'NOT_ASSIGNED', 'NOT_ACCEPTED', 'NOT_STARTED_YET', 'STARTED',
               'PICKED_UP', 'READY_TO_DELIVER', 'FAILED_DELIVERY', 'ACTIVE', 'INCOMPLETE']
+
+    @property
+    def list_(self):
+        return self._list_

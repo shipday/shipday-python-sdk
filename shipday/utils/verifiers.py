@@ -21,3 +21,8 @@ def verify_not_negative(number, error_message):
     verify_instance_of([int, float], number, error_message)
     if number < 0:
         raise ShipdayException(error_message)
+
+def verify_none_or_not_negative(number, error_message):
+    verify_none_or_instance_of([int, float], number, error_message)
+    if number < 0:
+        raise ShipdayException(error_message)
