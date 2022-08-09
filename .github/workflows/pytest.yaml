@@ -1,4 +1,4 @@
-name: running pytest
+name: running pytest with tox
 
 on:
   push:
