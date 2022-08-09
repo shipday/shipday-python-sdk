@@ -4,9 +4,24 @@ from datetime import datetime
 from shipday.exeptions import ShipdayException
 from shipday.order.order_status import OrderStatus
 from shipday.utils.verifiers import verify_none_or_instance_of
+from shipday.order.customer import Customer
+from shipday.order.pickup import Pickup
+from shipday.order.order_item import OrderItem
+from shipday.order.order_cost import OrderCost
+from shipday.order.address import Address
 
 
 class OrderQuery:
+
+    customer_address = Address(street='Jefferson St', city='California', state='CA', country='USA')
+    customer = Customer(name='customer', address=customer_address, email='customer@shipday.com',
+                        phone_number='+1343523423')
+
+    pickup_address = Address(street='Hacker way', city='California', state='CA', country='USA')
+    pickup = Pickup(name='customer', address=pickup_address, phone_number='+134343534')
+
+    item_1 = OrderItem(name='Pizza', unitPrice=2, quantity=7, add_ons='Extra cheese', detail='Signature Item')
+    cost = OrderCost(tips=1.0, deliveryFee=5, total=20)
     def __init__(self, *args,
                  start_time: datetime = None, end_time: datetime = None, order_status: str = None,
                  start_cursor=None, end_cursor=None,
@@ -71,7 +86,7 @@ class OrderQuery:
         verify_none_or_instance_of(datetime, self._start_time, "Start time is not of type " + str(datetime))
         verify_none_or_instance_of(datetime, self._end_time, "End time is not of type " + str(datetime))
         verify_none_or_instance_of(str, self._order_status, "Invalid order status")
-        if self._order_status not in OrderStatus._list_:
+        if self._order_status not in OrderStatus.list_:
             raise ShipdayException("Invalid order status")
         verify_none_or_instance_of(int, self._start_cursor, "Start cursor is not integer")
         verify_none_or_instance_of(int, self._end_cursor, "End cursor is not integer")

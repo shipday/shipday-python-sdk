@@ -2,7 +2,7 @@ import json
 from collections import defaultdict
 
 from shipday.order.address import Address
-from shipday.utils.verifiers import verify_instance_of
+from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
 
 
 class Customer:
@@ -31,7 +31,7 @@ class Customer:
 
     @address.setter
     def address(self, value: Address):
-        verify_instance_of(str, value, "Address is not String")
+        verify_instance_of(Address, value, "Address is not String")
         self._address = value
 
     @property
@@ -59,6 +59,7 @@ class Customer:
         verify_instance_of(str, self.name, "Customer must have a name")
         verify_instance_of(Address, self.address, "Customer must have a Address")
         verify_instance_of(str, self.phone_number, "Customer must have a phone number")
+        verify_none_or_instance_of(str, self.email, "Customer email must be a String or None")
 
     def get_body(self) -> dict:
         return {

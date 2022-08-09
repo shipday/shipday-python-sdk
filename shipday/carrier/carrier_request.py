@@ -5,11 +5,13 @@ from shipday.utils.verifiers import verify_instance_of
 
 
 class CarrierRequest:
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 name:str = None, email:str = None, phone_number:str = None
+                 , **kwargs):
         kwargs = defaultdict(lambda: None, **kwargs)
-        self._name = kwargs['name']
-        self._email = kwargs['email']
-        self._phone_number = kwargs['phone_number']
+        self._name = name
+        self._email = email
+        self._phone_number = phone_number
 
     @property
     def name(self) -> str:
