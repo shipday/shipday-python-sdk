@@ -1,7 +1,7 @@
 # Shipday Python SDK
 
 The Shipday Python sdk provides easier access to Shipday API's
-Python applications and scripts.
+from Python applications and scripts.
 
 ## Documentation
 
@@ -25,14 +25,18 @@ Import Shipday from shipday package.
 from shipday import Shipday
 ```
 
-You need to provide the shipday api-key in order to use the library. Example usages looks like following:-
+You need to provide the shipday api-key in order to use the library. To get your API key
+login to your [Shipday Dispatch Dashboard](https://dispatch.shipday.com) and Find the 
+API key from integrations tab.
+
+Example usages looks like following:-
 
 ```python
 API_KEY = '##########.#######################'
 my_shipday = Shipday(api_key=API_KEY)
 ```
 
-This my_shipday object contains two services (CarrierService and OrderService) which you can use to get your job
+This my_shipday object contains three services (CarrierService, OrderService and OnDemandDeliveryService) which you can use to get your job
 done. Here are few examples,
 
 ### Carrier Service
@@ -52,8 +56,8 @@ See the example below -
 ```python
 from shipday.carrier import CarrierRequest
 
-carrier_req = CarrierRequest(name='Library carrier',
-                             email='library_carrier3@shahriar.shipday',
+carrier_req = CarrierRequest(name='John Doe',
+                             email='john.doe@shipday.com',
                              phone_number='+123456789')
 my_shipday.CarrierService.add_carrier(carrier_req)
 ```
@@ -82,7 +86,7 @@ new_order = Order(orderNumber='100')
 
 # Add customer details
 new_order.customer = Customer(
-    name='Shahriar', email='shahriar@shahriar.shipday', phone_number='+88012367124',
+    name='John Doe', email='john.doe', phone_number='+12367124',
     address=Address(street='556 Crestlake Dr', city='San Francisco', state='California', country='USA')
 )
 # Don't worry if you forget to send a parameter, you can also set it later like following line
@@ -90,7 +94,7 @@ new_order.customer.address.zip = 'CA 94132'
 
 # Add pickup details
 new_order.pickup = Pickup(
-    name='My pickup point', phone_number='+8832462374'
+    name='My pickup point', phone_number='+132462374'
 )
 new_order.pickup.address = Address(street='890 Geneva Av', city='San Fransisco', state='California', zip='CA 94132',
                                    country='USA')
@@ -104,11 +108,11 @@ new_order.order_items.append(
 my_shipday.OrderService.insert_order(new_order)
 ```
 
-To get retrive orders by order number, use get_order function. This will return a list of orders matching the given
+To retrieve orders by order number, use get_order function. This will return a list of orders matching the given
 order_number.
 
 ```python
-orders = my_shipday.OrderService.get_order(order_number='#1')
+orders = my_shipday.OrderService.get_order(order_number='100')
 ```
 
 To assign an order to a carrier, use assign_order() function. For example,
@@ -138,5 +142,34 @@ query.start_time = datetime.now() - timedelta(days=1)
 my_shipday.OrderService.query(query=query)
 ```
 
+### OnDemandDeliveryService
+To get informations on On-Demand Delivery Services use get_services() function like following code -
+```python
+my_shipday.OnDemandDeliveryService.get_services()
+```
 
+You can use get_active_services() function to retrieve the service names of those available to your account.
+```python
+my_shipday.OnDemandDeliveryService.get_active_services()
+```
+
+To estimate the cost and required delivery time from available delivery services, use estimate() function -
+```python
+my_shipday.OnDemandDeliveryService.estimate(order_id=123424)
+```
+
+You can assign an order to a delivery service provider by calling assign() method. For example,
+```python
+my_shipday.OnDemandDeliveryService.assign(order_id=1234, service_name='Uber')
+```
+
+After assigning an order to a service, you can get the details using get_details() method.
+```python
+my_shipday.OnDemandDeliveryService.assign(order_id=1234)
+```
+
+If something goes wrong, you can cancel an assigned order using cancel() function. But this is not guaranteed to work-.
+```python
+my_shipday.OnDemandDeliveryService.cancel(order_id=1234)
+```
 
