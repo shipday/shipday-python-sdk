@@ -1,5 +1,5 @@
 from shipday.exeptions import ShipdayException
-from shipday.services import OrderService, CarrierService
+from shipday.services import OrderService, CarrierService, OnDemandDeliveryService
 
 
 class Shipday:
@@ -8,6 +8,7 @@ class Shipday:
         self.__verify_api_key()
         self.OrderService = OrderService(api_key=api_key)
         self.CarrierService = CarrierService(api_key=api_key)
+        self.OnDemandDeliveryService = OnDemandDeliveryService(api_key=api_key)
 
     def __verify_api_key(self):
         if self.__api_key__ is None or len(self.__api_key__) < 10:
