@@ -26,12 +26,13 @@ class OnDemandDeliveryService:
         active_services = [tp['name'] for tp in services if tp[tp['name']] is True]
         return active_services
 
-    def estimate(self, order_id) -> dict:
+    def estimate(self, order_id: int) -> dict:
         verify_instance_of(int, order_id, 'Order id must be integer')
         res = self.httpclient.get(self.ESTIMATE_PATH.format_map({'order_id': order_id}))
         return res
 
-    def check_availability(self, *args, pickup_address: Address, delivery_address: Address, delivery_time: datetime=None) -> dict:
+    def check_availability(self, *args, pickup_address: Address, delivery_address: Address,
+                           delivery_time: datetime = None) -> dict:
         verify_instance_of(Address, pickup_address, 'Pickup address must be of type {}'.format(Address))
         verify_instance_of(Address, delivery_address, 'Delivery address must be of type {}'.format(Address))
         verify_none_or_instance_of(datetime, delivery_time, 'Delivery Time must be of type {}'.format(datetime))
@@ -46,9 +47,9 @@ class OnDemandDeliveryService:
         res = self.httpclient.post(self.AVAILABILITY_PATH, data)
         return res
 
-    def assign(self, *args, order_id, service_name, tip=0, estimate_reference=None, **kwargs) -> dict:
+    def assign(self, *args, order_id:int, service_name: str, tip: float = 0, estimate_reference=None, **kwargs) -> dict:
         verify_instance_of(int, order_id, 'Order id must be integer')
-        verify_instance_of([int, float], tip, 'Order id must be integer')
+        verify_instance_of([int, float], tip, 'Tip must be a number')
         verify_none_or_instance_of(str, estimate_reference, 'Invalid Reference')
 
         if service_name not in self.get_active_services():
@@ -64,12 +65,12 @@ class OnDemandDeliveryService:
         res = self.httpclient.post(self.ASSIGN_PATH, data)
         return res
 
-    def cancel(self, order_id) -> dict:
+    def cancel(self, order_id: int) -> dict:
         verify_instance_of(int, order_id, 'Order id must be integer')
         res = self.httpclient.post(self.CANCEL_PATH.format_map({'order_id': order_id}), {})
         return res
 
-    def get_details(self, order_id) -> dict:
+    def get_details(self, order_id: int) -> dict:
         verify_instance_of(int, order_id, 'Order id must be integer')
         res = self.httpclient.get(self.DETAILS_PATH.format_map({'order_id': order_id}))
         return res

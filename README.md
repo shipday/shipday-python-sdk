@@ -165,7 +165,7 @@ my_shipday.OnDemandDeliveryService.assign(order_id=1234, service_name='Uber')
 
 After assigning an order to a service, you can get the details using get_details() method.
 ```python
-my_shipday.OnDemandDeliveryService.assign(order_id=1234)
+my_shipday.OnDemandDeliveryService.get_details(order_id=1234)
 ```
 
 If something goes wrong, you can cancel an assigned order using cancel() function. But this is not guaranteed to work-.
