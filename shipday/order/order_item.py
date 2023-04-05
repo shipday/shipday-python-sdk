@@ -10,7 +10,7 @@ class OrderItem:
                  **kwargs):
         kwargs = defaultdict(lambda: None, **kwargs)
         self._name = name
-        self._unit_price = unit_price or kwargs['unitPrice']
+        self._unit_price = unit_price or kwargs['unitPrice'] or 0
         self._quantity = quantity
         self._add_ons = add_ons or kwargs['addOns']
         self._detail = detail
