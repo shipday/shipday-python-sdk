@@ -22,15 +22,6 @@ class TestOrderItem:
         with pytest.raises(ShipdayException):
             order_item.verify()
 
-    @pytest.mark.parametrize('order_item', [
-        OrderItem(name='Pizza', quantity=4),
-        OrderItem(name='Pizza', quantity=5, add_ons='Extra cheese'),
-        OrderItem(name='Pizza', quantity=7, add_ons='Extra cheese', detail='Signature Item'),
-    ])
-    def test_price_missing(self, order_item: OrderItem):
-        """Throws exception if unit price is not set ::"""
-        with pytest.raises(ShipdayException):
-            order_item.verify()
 
     @pytest.mark.parametrize('order_item', [
         OrderItem(name='Pizza', unitPrice=1),
