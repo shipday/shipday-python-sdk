@@ -116,6 +116,7 @@ class Order:
     @delivery_instruction.setter
     def delivery_instruction(self, value: str):
         verify_none_or_instance_of(str, value, 'Delivery Instruction must be of type string')
+        self._delivery_instruction = value
 
     def __repr__(self):
         self.get_body()

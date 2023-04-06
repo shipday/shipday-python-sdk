@@ -157,3 +157,4 @@ class TestOrderInfo:
     def test_valid_instruction_set(self, order, value) :
         """Successful if delivery instruction is string or None ::"""
         order.delivery_instruction = value
+        assert order.delivery_instruction == value
