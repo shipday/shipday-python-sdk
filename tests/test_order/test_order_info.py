@@ -128,3 +128,32 @@ class TestOrderInfo:
         """Throws exception if expected_pickup_time is neither datetime.datetime nor None ::"""
         with pytest.raises(ShipdayException):
             order.expected_pickup_time = value
+
+    @pytest.mark.parametrize('order', [
+        Order(orderNumber='1234', customer=customer, pickup=pickup),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, expected_pickup_time=datetime.fromisoformat('2022-08-10T13:22')),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, order_items=[item_1]),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, order_items=[item_1], expected_pickup_time=datetime.fromisoformat('2022-08-10T13:22'))
+    ])
+    @pytest.mark.parametrize('value', [
+        1, 1.0, [1, 2], {'a': 1},
+        customer, customer_address, pickup_address, item_1
+    ])
+    def test_invalid_instruction_set(self, order, value) :
+        """Throws exception if delivery_instruction is neither string nor None ::"""
+        with pytest.raises(ShipdayException):
+            order.delivery_instruction = value
+
+    @pytest.mark.parametrize('order', [
+        Order(orderNumber='1234', customer=customer, pickup=pickup),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, expected_pickup_time=datetime.fromisoformat('2022-08-10T13:22')),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, order_items=[item_1]),
+        Order(orderNumber='1234', customer=customer, pickup=pickup, order_items=[item_1], expected_pickup_time=datetime.fromisoformat('2022-08-10T13:22')),
+
+    ])
+    @pytest.mark.parametrize('value', [
+        'get there fast', 'Apt 6', '', None, 'Put in front of the door', '.....', '+01234567'
+    ])
+    def test_valid_instruction_set(self, order, value) :
+        """Successful if delivery instruction is string or None ::"""
+        order.delivery_instruction = value
