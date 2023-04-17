@@ -73,5 +73,6 @@ class OrderCost:
             'tax': self.tax,
             'discountAmount': self.discount,
             'deliveryFee': self.delivery_fee,
-            'total': self.total
+            'totalCost': self.total,
+            'totalOrderCost': self.total,
         }
