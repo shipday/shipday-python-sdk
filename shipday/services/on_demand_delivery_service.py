@@ -39,7 +39,9 @@ class OnDemandDeliveryService:
 
         data = {
             'pickupAddress': pickup_address.get_single_line(),
-            'deliveryAddress': delivery_address.get_single_line()
+            'deliveryAddress': delivery_address.get_single_line(),
+            'pickup': pickup_address.get_breakdown(),
+            'delivery': delivery_address.get_breakdown()
         }
         if delivery_time is not None:
             data['deliveryTime'] = delivery_time.isoformat()
