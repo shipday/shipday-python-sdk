@@ -28,3 +28,8 @@ def verify_none_or_not_negative(number, error_message):
 
     if number is not None and number < 0:
         raise ShipdayException(error_message)
+
+def verify_within_range(number, min_value, max_value, error_message):
+    verify_instance_of([int, float], number, error_message)
+    if number <= min_value or number >= max_value:
+        raise ShipdayException(error_message)

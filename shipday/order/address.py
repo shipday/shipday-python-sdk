@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from shipday.utils.verifiers import verify_none_or_instance_of
+from shipday.utils.verifiers import verify_none_or_instance_of, verify_within_range
 
 
 class Address:
@@ -94,6 +94,8 @@ class Address:
         verify_none_or_instance_of(str, self.country, "Country must be str")
         verify_none_or_instance_of(float, self.latitude, "Latitude must be float")
         verify_none_or_instance_of(float, self.longitude, "Longitude must be float")
+        verify_within_range(self.latitude, -90, 90, "Latitude must be between -90 and 90")
+        verify_within_range(self.longitude, -180, 180, "Longitude must be between -180 and 180")
 
     def get_breakdown(self) -> dict:
         obj = dict()
