@@ -6,6 +6,7 @@ from shipday.utils.verifiers import verify_none_or_instance_of
 class Address:
     def __init__(self, *args, unit: str = None, street: str = None, city: str = None,
                  state: str = None, zip: str = None, country: str = None,
+                 latitude: float = None, longitude: float = None,
                  **kwargs):
         kwargs = defaultdict(lambda: None, **kwargs)
         self._unit = unit
@@ -14,6 +15,8 @@ class Address:
         self._state = state
         self._zip = zip
         self._country = country
+        self._latitude = latitude
+        self._longitude = longitude
 
     @property
     def unit(self):
@@ -63,6 +66,22 @@ class Address:
     def country(self, value):
         self._country = value
 
+    @property
+    def latitude(self):
+        return self._latitude
+
+    @latitude.setter
+    def latitude(self, value):
+        self._latitude = value
+
+    @property
+    def longitude(self):
+        return self._longitude
+
+    @longitude.setter
+    def longitude(self, value):
+        self._longitude = value
+
     def __repr__(self):
         return self.get_single_line()
 
@@ -73,6 +92,8 @@ class Address:
         verify_none_or_instance_of(str, self.state, "State must be str")
         verify_none_or_instance_of(str, self.zip, "Zip must be str")
         verify_none_or_instance_of(str, self.country, "Country must be str")
+        verify_none_or_instance_of(float, self.latitude, "Latitude must be float")
+        verify_none_or_instance_of(float, self.longitude, "Longitude must be float")
 
     def get_breakdown(self) -> dict:
         obj = dict()
@@ -88,6 +109,10 @@ class Address:
             obj['zip'] = self.zip
         if self.country is not None:
             obj['country'] = self.country
+        if self.latitude is not None:
+            obj['latitude'] = self.latitude
+        if self.longitude is not None:
+            obj['longitude'] = self.longitude
         return obj
 
     def get_single_line(self) -> str:
