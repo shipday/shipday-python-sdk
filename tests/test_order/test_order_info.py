@@ -144,6 +144,7 @@ class TestOrderInfo:
         with pytest.raises(ShipdayException):
             order.delivery_instruction = value
 
+        """Throws exception if pickup_instruction is neither string nor None ::"""
         with pytest.raises(ShipdayException):
             order.pickup_instruction = value
 
