@@ -62,7 +62,7 @@ class Customer:
         verify_none_or_instance_of(str, self.email, "Customer email must be a String or None")
 
     def get_body(self) -> dict:
-        return {
+        obj = {
             'customerName': self.name,
             'customerAddress': self._address_line or (
                 self.address.get_single_line() if self._address is not None else None),
@@ -70,3 +70,9 @@ class Customer:
             'customerEmail': self.email,
             'customerPhoneNumber': self.phone_number
         }
+
+        if self.address is not None and self.address.latitude is not None and self.address.longitude is not None:
+            obj['customerLatitude'] = self.address.latitude
+            obj['customerLongitude'] = self.address.longitude
+
+        return obj

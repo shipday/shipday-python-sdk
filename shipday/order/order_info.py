@@ -43,6 +43,7 @@ class Order:
         self._delivery_time: datetime = expected_delivery_time
         self._pickup_time: datetime = expected_pickup_time
         self._delivery_instruction = kwargs['deliveryInstruction'] or kwargs['delivery_instruction']
+        self._pickup_instruction = kwargs['pickupInstruction'] or kwargs['pickup_instruction']
 
     @property
     def order_number(self) -> str:
@@ -118,6 +119,15 @@ class Order:
         verify_none_or_instance_of(str, value, 'Delivery Instruction must be of type string')
         self._delivery_instruction = value
 
+    @property
+    def pickup_instruction(self):
+        return self._pickup_instruction
+
+    @pickup_instruction.setter
+    def pickup_instruction(self, value: str):
+        verify_none_or_instance_of(str, value, 'Pickup Instruction must be of type string')
+        self._pickup_instruction = value
+
     def __repr__(self):
         self.get_body()
 
@@ -166,5 +176,8 @@ class Order:
 
         if self._delivery_instruction is not None:
             obj['deliveryInstruction'] = self._delivery_instruction
+
+        if self._pickup_instruction is not None:
+            obj['pickupInstruction'] = self._pickup_instruction
 
         return obj

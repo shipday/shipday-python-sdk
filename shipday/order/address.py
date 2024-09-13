@@ -1,6 +1,7 @@
 from collections import defaultdict
 
-from shipday.utils.verifiers import verify_none_or_instance_of, verify_within_range
+from shipday.utils.verifiers import verify_none_or_instance_of, verify_none_or_within_range, \
+    verify_all_none_or_not
 
 
 class Address:
@@ -94,8 +95,10 @@ class Address:
         verify_none_or_instance_of(str, self.country, "Country must be str")
         verify_none_or_instance_of(float, self.latitude, "Latitude must be float")
         verify_none_or_instance_of(float, self.longitude, "Longitude must be float")
-        verify_within_range(self.latitude, -90, 90, "Latitude must be between -90 and 90")
-        verify_within_range(self.longitude, -180, 180, "Longitude must be between -180 and 180")
+        verify_none_or_within_range(self.latitude, -90, 90, "Latitude must be between -90 and 90")
+        verify_none_or_within_range(self.longitude, -180, 180, "Longitude must be between -180 and 180")
+        verify_all_none_or_not([self.latitude, self.longitude], "Latitude and Longitude must be both None or float"),
+
 
     def get_breakdown(self) -> dict:
         obj = dict()
@@ -111,10 +114,6 @@ class Address:
             obj['zip'] = self.zip
         if self.country is not None:
             obj['country'] = self.country
-        if self.latitude is not None:
-            obj['latitude'] = self.latitude
-        if self.longitude is not None:
-            obj['longitude'] = self.longitude
         return obj
 
     def get_single_line(self) -> str:

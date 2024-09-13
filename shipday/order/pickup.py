@@ -57,6 +57,11 @@ class Pickup:
                 self.address.get_single_line() if self._address is not None else None),
             'pickup': self.address.get_breakdown() if self._address is not None else None,
         }
+
+        if self.address is not None and self.address.latitude is not None and self.address.longitude is not None:
+            obj['pickupLatitude'] = self.address.latitude
+            obj['pickupLongitude'] = self.address.longitude
+
         if self.phone_number is not None:
             obj['restaurantPhoneNumber'] = self.phone_number
         return obj
