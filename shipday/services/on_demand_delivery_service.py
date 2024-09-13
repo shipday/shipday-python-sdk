@@ -43,6 +43,15 @@ class OnDemandDeliveryService:
             'pickup': pickup_address.get_breakdown(),
             'delivery': delivery_address.get_breakdown()
         }
+
+        if pickup_address.latitude is not None and pickup_address.longitude is not None:
+            data['pickupLatitude'] = pickup_address.latitude
+            data['pickupLongitude'] = pickup_address.longitude
+
+        if delivery_address.latitude is not None and delivery_address.longitude is not None:
+            data['deliveryLatitude'] = delivery_address.latitude
+            data['deliveryLongitude'] = delivery_address.longitude
+
         if delivery_time is not None:
             data['deliveryTime'] = delivery_time.isoformat()
 

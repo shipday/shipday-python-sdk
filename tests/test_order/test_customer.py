@@ -54,6 +54,19 @@ class TestCustomer:
             customer.address = value
 
     @pytest.mark.parametrize('customer', [
+        Customer(name='customer', email='customer@shipday.com', phone_number='+1343523423'),
+        Customer(name='customer', address=address, email='customer@shipday.com', phone_number='+1343523423')
+    ])
+    @pytest.mark.parametrize('value', [
+        address,
+        Address(street='Jefferson St', city='California', state='CA', country='USA', latitude=1.0, longitude=1.0),
+    ])
+    def test_valid_address_set(self, customer: Customer, value):
+        """Valid Address set ::"""
+        customer.address = value
+        assert customer.address == value
+
+    @pytest.mark.parametrize('customer', [
         Customer(name='customer', address=address, phone_number='+1343523423'),
         Customer(name='customer', address=address, email='customer@shipday.com', phone_number='+1343523423')
     ])

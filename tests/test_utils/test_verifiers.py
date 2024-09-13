@@ -2,7 +2,7 @@ import pytest
 
 from shipday.exeptions.shipday_exeption import ShipdayException
 from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of, \
-    verify_not_negative, verify_none_or_not_negative
+    verify_not_negative, verify_none_or_not_negative, verify_none_or_within_range, verify_all_none_or_not
 
 
 class TestVerifiers:
@@ -79,3 +79,38 @@ class TestVerifiers:
         else:
             with pytest.raises(ShipdayException):
                 verify_none_or_not_negative(value, "Exception")
+
+    @pytest.mark.parametrize('value, min_value, max_value, success', [
+        (None, 0, 10, True),
+        (0, 0, 10, True),
+        (10, 0, 10, True),
+        (5, 0, 10, True),
+        (-1, 0, 10, False),
+        (11, 0, 10, False),
+        (10.1, 0, 10, False),
+        (-0.1, 0, 10, False)
+    ])
+    def test_verify_none_or_within_range(self, value, min_value, max_value, success: bool):
+        if success:
+            verify_none_or_within_range(value, min_value, max_value, "Exception")
+        else:
+            with pytest.raises(ShipdayException):
+                verify_none_or_within_range(value, min_value, max_value, "Exception")
+
+    @pytest.mark.parametrize('value, success', [
+        (None, True),
+        (1, True),
+        ([1, 2, 3], True),
+        ([None, None, None], True),
+        (['a', 'b', 'c'], True),
+        (['a', 1, 2], True),
+        (['a', 1, None], False),
+        (['a', None, 2], False),
+        (['a', None, None], False),
+    ])
+    def test_verify_all_none_or_not(self, value, success: bool):
+        if success:
+            verify_all_none_or_not(value, "Exception")
+        else:
+            with pytest.raises(ShipdayException):
+                verify_all_none_or_not(value, "Exception")
