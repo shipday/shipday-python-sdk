@@ -144,6 +144,9 @@ class TestOrderInfo:
         with pytest.raises(ShipdayException):
             order.delivery_instruction = value
 
+        with pytest.raises(ShipdayException):
+            order.pickup_instruction = value
+
     @pytest.mark.parametrize('order', [
         Order(orderNumber='1234', customer=customer, pickup=pickup),
         Order(orderNumber='1234', customer=customer, pickup=pickup, expected_pickup_time=datetime.fromisoformat('2022-08-10T13:22')),
