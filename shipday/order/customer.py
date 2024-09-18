@@ -72,7 +72,7 @@ class Customer:
         }
 
         if self.address is not None and self.address.latitude is not None and self.address.longitude is not None:
-            obj['customerLatitude'] = self.address.latitude
-            obj['customerLongitude'] = self.address.longitude
+            obj['deliveryLatitude'] = self.address.latitude
+            obj['deliveryLongitude'] = self.address.longitude
 
         return obj
