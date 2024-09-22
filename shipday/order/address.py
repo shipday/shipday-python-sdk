@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from shipday.utils.verifiers import verify_none_or_instance_of, verify_none_or_within_range, \
-    verify_all_none_or_not
+    verify_all_none_or_not, verify_instance_of
 
 
 class Address:
@@ -18,6 +18,7 @@ class Address:
         self._country = country
         self._latitude = latitude
         self._longitude = longitude
+        self._unit_in_address = kwargs['unit_in_address'] if 'unit_in_address' in kwargs else False
 
     @property
     def unit(self):
@@ -83,6 +84,15 @@ class Address:
     def longitude(self, value):
         self._longitude = value
 
+    @property
+    def unit_in_address(self):
+        return self._unit_in_address
+
+    @unit_in_address.setter
+    def unit_in_address(self, value):
+        verify_instance_of(bool, value, "Unit in address must be a boolean")
+        self._unit_in_address = value
+
     def __repr__(self):
         return self.get_single_line()
 
@@ -120,6 +130,8 @@ class Address:
         l = []
         if self.street is not None:
             l.append(self.street)
+        if self.unit is not None and self.unit_in_address is True:
+            l.append(self.unit)
         if self.city is not None:
             l.append(self.city)
         if self.state is not None:
