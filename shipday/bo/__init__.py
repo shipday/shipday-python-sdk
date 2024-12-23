@@ -1,0 +1,1 @@
+from shipday.bo.pod_type import PodType
