@@ -1,3 +1,4 @@
+from shipday.bo import PodType
 from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
 from shipday.exeptions.shipday_exeption import ShipdayException
 from shipday.httpclient.shipdayclient import ShipdayClient
@@ -58,7 +59,7 @@ class OnDemandDeliveryService:
         res = self.httpclient.post(self.AVAILABILITY_PATH, data)
         return res
 
-    def assign(self, *args, order_id:int, service_name: str, tip: float = 0, estimate_reference=None, **kwargs) -> dict:
+    def assign(self, *args, order_id:int, service_name: str, tip: float = 0, estimate_reference=None, contactless_delivery: bool = False, pod_types: list[PodType] = None, **kwargs) -> dict:
         verify_instance_of(int, order_id, 'Order id must be integer')
         verify_instance_of([int, float], tip, 'Tip must be a number')
         verify_none_or_instance_of(str, estimate_reference, 'Invalid Reference')
@@ -68,7 +69,9 @@ class OnDemandDeliveryService:
         data = {
             'name': service_name,
             'orderId': order_id,
-            'tip': tip
+            'tip': tip,
+            'contactlessDelivery': contactless_delivery,
+            'podTypes': [pod.value for pod in pod_types] if pod_types is not None else None
         }
         if estimate_reference is not None:
             data['estimateReference'] = estimate_reference
