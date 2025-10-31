@@ -1,5 +1,5 @@
 import pytest
-from shipday.exeptions.shipday_exeption import ShipdayException
+from shipday.exceptions.shipday_exception import ShipdayException
 from shipday.carrier.carrier_request import CarrierRequest
 
 

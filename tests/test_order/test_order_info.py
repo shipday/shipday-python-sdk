@@ -2,7 +2,7 @@ import pytest
 
 from datetime import datetime
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order import Order, Customer, Pickup, OrderItem, OrderCost, Address
 
 

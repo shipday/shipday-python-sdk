@@ -1,6 +1,9 @@
 import json
+from typing import Any
 
 import requests
+
+from shipday.exceptions import ShipdayRateLimitException
 
 
 class ShipdayClient:
@@ -21,25 +24,33 @@ class ShipdayClient:
     def __create_url_(self, suffix: str) -> str:
         return self._base_url + suffix
 
+    def __check_status_(self, response: Any):
+        if response.status_code == 429:
+            raise ShipdayRateLimitException(response.text)
+
     def set_api_key(self, api_key: str):
         self._api_key = api_key
 
     def get(self, suffix: str):
         url = self.__create_url_(suffix)
         response = requests.get(url, headers=self.__get_headers_())
+        self.__check_status_(response)
         return response.json()
 
     def post(self, suffix: str, data: dict):
         url = self.__create_url_(suffix)
         response = requests.post(url, json.dumps(data), headers=self.__get_headers_())
+        self.__check_status_(response)
         return response.json()
 
     def put(self, suffix: str, data: dict):
         url = self.__create_url_(suffix)
         response = requests.put(url, json.dumps(data), headers=self.__get_headers_())
+        self.__check_status_(response)
         return response.json()
 
     def delete(self, suffix: str):
         url = self.__create_url_(suffix)
         response = requests.delete(url, headers=self.__get_headers_())
+        self.__check_status_(response)
         return response

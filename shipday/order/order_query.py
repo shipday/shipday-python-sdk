@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order.order_status import OrderStatus
 from shipday.utils.verifiers import verify_none_or_instance_of
 from shipday.order.customer import Customer

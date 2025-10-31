@@ -1,4 +1,4 @@
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.services import OrderService, CarrierService, OnDemandDeliveryService
 
 

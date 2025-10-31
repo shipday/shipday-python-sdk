@@ -4,7 +4,7 @@ import pytest
 
 from itertools import combinations
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order import OrderQuery, Customer, Pickup, OrderItem, OrderCost, Address, OrderStatus
 
 
