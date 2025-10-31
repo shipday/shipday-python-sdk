@@ -2,7 +2,7 @@ from collections import defaultdict
 from datetime import datetime
 from typing import List
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order.customer import Customer
 from shipday.order.pickup import Pickup
 from shipday.order.order_item import OrderItem

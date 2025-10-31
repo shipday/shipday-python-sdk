@@ -1,4 +1,4 @@
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.httpclient.shipdayclient import ShipdayClient
 from shipday.order import Order, OrderQuery
 from shipday.utils.verifiers import verify_instance_of

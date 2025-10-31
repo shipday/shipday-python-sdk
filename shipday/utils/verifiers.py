@@ -1,4 +1,4 @@
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 
 
 def verify_none_or_instance_of(obj_type, variable, error_message):

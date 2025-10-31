@@ -1,5 +1,5 @@
 from shipday.carrier import CarrierRequest
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.httpclient.shipdayclient import ShipdayClient
 
 

@@ -1,6 +1,6 @@
 import pytest
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order import OrderItem
 
 

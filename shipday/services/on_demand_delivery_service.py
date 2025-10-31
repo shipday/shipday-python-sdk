@@ -1,6 +1,6 @@
 from shipday.bo import PodType
 from shipday.utils.verifiers import verify_instance_of, verify_none_or_instance_of
-from shipday.exeptions.shipday_exeption import ShipdayException
+from shipday.exceptions.shipday_exception import ShipdayException
 from shipday.httpclient.shipdayclient import ShipdayClient
 from shipday.order.address import Address
 from datetime import datetime

@@ -1,7 +1,7 @@
 import pytest
 from itertools import combinations
 
-from shipday.exeptions import ShipdayException
+from shipday.exceptions import ShipdayException
 from shipday.order import OrderCost
 
 
